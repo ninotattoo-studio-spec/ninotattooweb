@@ -9,7 +9,7 @@ import { BookingForm } from "@/components/nino/BookingForm";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Niño Tattoo Experience" },
+      { title: "Niño Tattoo" },
       { name: "description", content: "Estudio premium de tatuajes, depilación láser, cuidados y piercings." },
     ],
   }),

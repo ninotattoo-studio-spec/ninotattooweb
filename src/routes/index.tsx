@@ -133,7 +133,7 @@ function Index() {
 
             <p className="text-[10px] tracking-[0.4em] text-gold/80 uppercase text-center">Bienvenido</p>
             <h1 className="mt-3 font-display text-3xl sm:text-5xl tracking-[0.1em] text-center gold-gradient-text leading-tight">
-              NIÑO TATTOO<br />EXPERIENCE
+              NIÑO TATTOO
             </h1>
             <div className="mx-auto h-px w-16 gold-line my-6" />
 

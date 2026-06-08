@@ -72,7 +72,7 @@ export function TopNav({ visible, onReserve }: Props) {
               </button>
             </div>
             <div className="mt-auto text-[10px] tracking-[0.3em] text-ivory/40 uppercase">
-              Niño Tattoo · Experience
+              Niño Tattoo
             </div>
           </div>
         </aside>

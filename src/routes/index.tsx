@@ -9,7 +9,7 @@ import { BookingForm } from "@/components/nino/BookingForm";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Niño Tattoo Experience" },
+      { title: "Niño Tattoo" },
       { name: "description", content: "Estudio premium de tatuajes, depilación láser, cuidados y piercings." },
     ],
   }),
@@ -133,7 +133,7 @@ function Index() {
 
             <p className="text-[10px] tracking-[0.4em] text-gold/80 uppercase text-center">Bienvenido</p>
             <h1 className="mt-3 font-display text-3xl sm:text-5xl tracking-[0.1em] text-center gold-gradient-text leading-tight">
-              NIÑO TATTOO<br />EXPERIENCE
+              NIÑO TATTOO
             </h1>
             <div className="mx-auto h-px w-16 gold-line my-6" />
 
@@ -152,7 +152,7 @@ function Index() {
         <BookingForm ref={formRef} />
 
         <footer className="text-center pb-10 text-[10px] tracking-[0.35em] text-ivory/40 uppercase">
-          © Niño Tattoo Experience
+          © Niño Tattoo
         </footer>
       </main>
     </div>

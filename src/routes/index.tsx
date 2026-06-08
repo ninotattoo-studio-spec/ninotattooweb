@@ -152,7 +152,7 @@ function Index() {
         <BookingForm ref={formRef} />
 
         <footer className="text-center pb-10 text-[10px] tracking-[0.35em] text-ivory/40 uppercase">
-          © Niño Tattoo Experience
+          © Niño Tattoo
         </footer>
       </main>
     </div>

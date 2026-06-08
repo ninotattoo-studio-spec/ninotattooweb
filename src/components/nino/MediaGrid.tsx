@@ -1,11 +1,19 @@
 import { useState } from "react";
 import { Lightbox, type LightboxItem } from "./Lightbox";
 
-const tattooImages: LightboxItem[] = Array.from({ length: 5 }, (_, i) => ({
-  type: "image" as const,
-  src: `/frames/trabajos/trabajo${i + 1}.png`,
-  alt: `Trabajo ${i + 1}`,
-}));
+const tattooModules = import.meta.glob("/src/assets/trabajos/*.{png,jpg,jpeg,webp}", {
+  eager: true,
+  query: "?url",
+  import: "default",
+}) as Record<string, string>;
+
+const tattooImages: LightboxItem[] = Object.entries(tattooModules)
+  .sort(([a], [b]) => a.localeCompare(b, "es", { numeric: true }))
+  .map(([, src], i) => ({
+    type: "image" as const,
+    src,
+    alt: `Trabajo ${i + 1}`,
+  }));
 
 type Section = { title: string; items: LightboxItem[]; comingSoon?: boolean };
 

@@ -36,7 +36,7 @@ export function Lightbox({ items, index, onClose, onChange }: Props) {
         onClick={(e) => { e.stopPropagation(); onClose(); }}
         aria-label="Cerrar"
         type="button"
-        className="absolute top-4 right-4 z-[110] text-ivory hover:text-gold p-3 border border-gold/40 bg-onyx/80"
+        className="absolute top-4 left-4 z-[110] text-ivory hover:text-gold p-3 border border-gold/40 bg-onyx/80"
       >
         <X className="h-6 w-6" />
       </button>

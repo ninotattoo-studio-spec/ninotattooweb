@@ -1,5 +1,6 @@
 import { forwardRef, useMemo, useState } from "react";
 import { format } from "date-fns";
+import { es } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -23,14 +24,20 @@ export const BookingForm = forwardRef<HTMLDivElement>(function BookingForm(_, re
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!valid) return;
-    const msg =
-      `*Nueva reserva — Niño Tattoo*%0A` +
-      `*Descripción:* ${encodeURIComponent(desc)}%0A` +
-      `*Teléfono:* ${encodeURIComponent(phone)}%0A` +
-      `*Fecha preferida:* ${date ? format(date, "dd/MM/yyyy") : "-"}%0A` +
-      (size ? `*Tamaño:* ${encodeURIComponent(size)} cm%0A` : "") +
-      (styles.length ? `*Estilo:* ${encodeURIComponent(styles.join(", "))}` : "");
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank");
+    const lines = [
+      "*Nueva reserva — Niño Tattoo*",
+      `*Descripción:* ${desc}`,
+      `*Teléfono:* ${phone}`,
+      `*Fecha preferida:* ${date ? format(date, "dd/MM/yyyy", { locale: es }) : "-"}`,
+    ];
+    if (size) lines.push(`*Tamaño:* ${size} cm`);
+    if (styles.length) lines.push(`*Estilo:* ${styles.join(", ")}`);
+    const text = encodeURIComponent(lines.join("\n"));
+    const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+    const url = isMobile
+      ? `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`
+      : `https://web.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${text}`;
+    window.open(url, "_blank", "noopener,noreferrer");
   };
 
   return (

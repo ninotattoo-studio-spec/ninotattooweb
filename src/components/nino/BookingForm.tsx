@@ -89,7 +89,7 @@ export const BookingForm = forwardRef<HTMLDivElement>(function BookingForm(_, re
                       !date && "text-ivory/40"
                     )}
                   >
-                    <span>{date ? format(date, "PPP") : "Seleccionar fecha"}</span>
+                    <span>{date ? format(date, "PPP", { locale: es }) : "Seleccionar fecha"}</span>
                     <CalendarIcon className="h-4 w-4 text-gold" />
                   </button>
                 </PopoverTrigger>
@@ -99,6 +99,8 @@ export const BookingForm = forwardRef<HTMLDivElement>(function BookingForm(_, re
                     selected={date}
                     onSelect={setDate}
                     initialFocus
+                    locale={es}
+                    weekStartsOn={1}
                     disabled={(d) => d < new Date(new Date().setHours(0, 0, 0, 0))}
                     className={cn("p-3 pointer-events-auto")}
                   />

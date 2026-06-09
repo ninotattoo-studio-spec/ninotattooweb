@@ -29,14 +29,14 @@ export function Lightbox({ items, index, onClose, onChange }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] bg-onyx/95 backdrop-blur-md flex items-center justify-center p-4"
+      className="fixed inset-0 z-[300] bg-onyx/95 backdrop-blur-md flex items-center justify-center p-4"
       onClick={onClose}
     >
       <button
         onClick={(e) => { e.stopPropagation(); onClose(); }}
         aria-label="Cerrar"
         type="button"
-        className="absolute top-4 left-4 z-[110] text-ivory hover:text-gold p-3 border border-gold/40 bg-onyx/80"
+        className="absolute top-4 right-4 z-[310] text-ivory hover:text-gold p-3 border border-gold/40 bg-onyx/80"
       >
         <X className="h-6 w-6" />
       </button>

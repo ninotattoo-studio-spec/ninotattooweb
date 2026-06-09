@@ -70,7 +70,7 @@ function Index() {
       {/* Fixed canvases — phase 1 fades into phase 2 */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <FrameCanvas
-          prefix="/frames/chica/hero-girlrt_"
+          prefix="/frames/chica/hero-girlrt__"
           pad={4}
           start={1}
           end={300}
@@ -79,19 +79,21 @@ function Index() {
           className="absolute inset-0 w-full h-full transition-opacity duration-500"
         />
         <div
-          className="absolute inset-0 transition-opacity duration-500"
+          className="absolute inset-0 flex items-center justify-center transition-opacity duration-500"
           style={{ opacity: phase1Progress >= 0.98 ? 1 : Math.max(0, (phase1Progress - 0.85) / 0.13) }}
         >
-          <FrameCanvas
-            prefix="/frames/logo/logo_ntt_"
-            pad={4}
-            start={1}
-            end={150}
-            ext=".jpg"
-            progress={phase2Progress}
-            freezeAtEnd
-            className="absolute inset-0 w-full h-full"
-          />
+          <div className="relative w-[68%] max-w-[420px] aspect-square">
+            <FrameCanvas
+              prefix="/frames/logo/logo_ntt_"
+              pad={4}
+              start={1}
+              end={150}
+              ext=".jpg"
+              progress={phase2Progress}
+              freezeAtEnd
+              className="absolute inset-0 w-full h-full"
+            />
+          </div>
         </div>
         {/* darkening vignette to keep text legible */}
         <div className="absolute inset-0" style={{
@@ -131,8 +133,8 @@ function Index() {
             <span className="absolute bottom-0 left-0 w-6 h-6 border-b border-l border-gold" />
             <span className="absolute bottom-0 right-0 w-6 h-6 border-b border-r border-gold" />
 
-            <p className="text-[10px] tracking-[0.4em] text-gold/80 uppercase text-center">Bienvenido</p>
-            <h1 className="mt-3 font-display text-3xl sm:text-5xl tracking-[0.1em] text-center gold-gradient-text leading-tight">
+            <p className="text-[10px] tracking-[0.4em] text-ivory/80 uppercase text-center">Bienvenido</p>
+            <h1 className="mt-3 font-display text-3xl sm:text-5xl tracking-[0.1em] text-center text-ivory leading-tight">
               NIÑO TATTOO
             </h1>
             <div className="mx-auto h-px w-16 gold-line my-6" />

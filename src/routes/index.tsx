@@ -133,8 +133,8 @@ function Index() {
             <span className="absolute bottom-0 left-0 w-6 h-6 border-b border-l border-gold" />
             <span className="absolute bottom-0 right-0 w-6 h-6 border-b border-r border-gold" />
 
-            <p className="text-[10px] tracking-[0.4em] text-gold/80 uppercase text-center">Bienvenido</p>
-            <h1 className="mt-3 font-display text-3xl sm:text-5xl tracking-[0.1em] text-center gold-gradient-text leading-tight">
+            <p className="text-[10px] tracking-[0.4em] text-ivory/80 uppercase text-center">Bienvenido</p>
+            <h1 className="mt-3 font-display text-3xl sm:text-5xl tracking-[0.1em] text-center text-ivory leading-tight">
               NIÑO TATTOO
             </h1>
             <div className="mx-auto h-px w-16 gold-line my-6" />

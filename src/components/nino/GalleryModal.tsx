@@ -34,10 +34,7 @@ export function GalleryModal({ open, title, items, onClose }: Props) {
   return (
     <div className="fixed inset-0 z-[200] bg-onyx flex flex-col">
       {/* Top bar: always visible, X always reachable */}
-      <div className="relative flex items-center justify-between px-4 py-4 border-b border-gold/30 bg-onyx z-[210]">
-        <h2 className="font-display text-ivory tracking-[0.2em] text-sm sm:text-base uppercase">
-          {title}
-        </h2>
+      <div className="relative flex items-center gap-3 px-4 py-4 border-b border-gold/30 bg-onyx z-[210]">
         <button
           onClick={onClose}
           aria-label="Cerrar galería"
@@ -46,6 +43,9 @@ export function GalleryModal({ open, title, items, onClose }: Props) {
         >
           <X className="h-5 w-5" />
         </button>
+        <h2 className="font-display text-ivory tracking-[0.2em] text-sm sm:text-base uppercase">
+          {title}
+        </h2>
       </div>
 
       {/* Own scroll area */}

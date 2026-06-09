@@ -29,7 +29,7 @@ export function Lightbox({ items, index, onClose, onChange }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] bg-onyx/95 backdrop-blur-md flex items-center justify-center p-4"
+      className="fixed inset-0 z-[300] bg-onyx/95 backdrop-blur-md flex items-center justify-center p-4"
       onClick={onClose}
     >
       <button

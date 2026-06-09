@@ -67,34 +67,43 @@ function Index() {
     <div className="bg-onyx text-ivory min-h-screen">
       <TopNav visible={logoStarted} onReserve={scrollToForm} />
 
-      {/* Fixed canvases — phase 1 fades into phase 2 */}
+      {/* Fixed canvases — phase 1 swaps cleanly into phase 2 */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-        <FrameCanvas
-          prefix="/frames/chica/hero-girlrt__"
-          pad={4}
-          start={1}
-          end={300}
-          ext=".jpg"
-          progress={phase1Progress}
-          className="absolute inset-0 w-full h-full transition-opacity duration-500"
-        />
-        <div
-          className="absolute inset-0 flex items-center justify-center transition-opacity duration-500"
-          style={{ opacity: phase1Progress >= 0.98 ? 1 : Math.max(0, (phase1Progress - 0.85) / 0.13) }}
-        >
-          <div className="relative w-[68%] max-w-[420px] aspect-square">
-            <FrameCanvas
-              prefix="/frames/logo/logo_ntt_"
-              pad={4}
-              start={1}
-              end={150}
-              ext=".jpg"
-              progress={phase2Progress}
-              freezeAtEnd
-              className="absolute inset-0 w-full h-full"
+        {phase1Progress < 1 ? (
+          <FrameCanvas
+            prefix="/frames/chica/hero-girlrt__"
+            pad={4}
+            start={1}
+            end={300}
+            ext=".jpg"
+            progress={phase1Progress}
+            className="absolute inset-0 w-full h-full"
+          />
+        ) : (
+          <div className="absolute inset-0 h-screen w-full flex items-center justify-center bg-onyx">
+            {/* Luxury lighting BEHIND the logo, only on the empty side bands */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  "radial-gradient(55% 60% at 0% 50%, color-mix(in oklab, var(--color-gold) 20%, transparent), transparent 70%), radial-gradient(55% 60% at 100% 50%, color-mix(in oklab, var(--color-ivory) 16%, transparent), transparent 70%)",
+                filter: "blur(40px)",
+              }}
             />
+            <div className="relative w-[68%] max-w-[420px] aspect-square">
+              <FrameCanvas
+                prefix="/frames/logo/logo_ntt_"
+                pad={4}
+                start={1}
+                end={150}
+                ext=".jpg"
+                progress={phase2Progress}
+                freezeAtEnd
+                className="absolute inset-0 w-full h-full"
+              />
+            </div>
           </div>
-        </div>
+        )}
         {/* darkening vignette to keep text legible */}
         <div className="absolute inset-0" style={{
           background: "radial-gradient(120% 80% at 50% 60%, transparent 30%, rgba(26,26,26,0.55) 80%, rgba(26,26,26,0.85) 100%)",

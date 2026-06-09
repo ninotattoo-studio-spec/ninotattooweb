@@ -70,7 +70,7 @@ function Index() {
       {/* Fixed canvases — phase 1 fades into phase 2 */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <FrameCanvas
-          prefix="/frames/chica/hero-girlrt_"
+          prefix="/frames/chica/hero-girlrt__"
           pad={4}
           start={1}
           end={300}
@@ -79,19 +79,21 @@ function Index() {
           className="absolute inset-0 w-full h-full transition-opacity duration-500"
         />
         <div
-          className="absolute inset-0 transition-opacity duration-500"
+          className="absolute inset-0 flex items-center justify-center transition-opacity duration-500"
           style={{ opacity: phase1Progress >= 0.98 ? 1 : Math.max(0, (phase1Progress - 0.85) / 0.13) }}
         >
-          <FrameCanvas
-            prefix="/frames/logo/logo_ntt_"
-            pad={4}
-            start={1}
-            end={150}
-            ext=".jpg"
-            progress={phase2Progress}
-            freezeAtEnd
-            className="absolute inset-0 w-full h-full"
-          />
+          <div className="relative w-[68%] max-w-[420px] aspect-square">
+            <FrameCanvas
+              prefix="/frames/logo/logo_ntt_"
+              pad={4}
+              start={1}
+              end={150}
+              ext=".jpg"
+              progress={phase2Progress}
+              freezeAtEnd
+              className="absolute inset-0 w-full h-full"
+            />
+          </div>
         </div>
         {/* darkening vignette to keep text legible */}
         <div className="absolute inset-0" style={{

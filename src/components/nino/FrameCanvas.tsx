@@ -18,7 +18,7 @@ interface Props {
   fit?: "cover" | "contain";
 }
 
-export function FrameCanvas({ prefix, pad, start, end, ext, progress, className, freezeAtEnd }: Props) {
+export function FrameCanvas({ prefix, pad, start, end, ext, progress, className, freezeAtEnd, fit = "cover" }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imagesRef = useRef<(HTMLImageElement | null)[]>([]);
   const [, force] = useState(0);

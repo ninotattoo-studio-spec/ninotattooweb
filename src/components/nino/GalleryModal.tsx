@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { Lightbox, type LightboxItem } from "./Lightbox";
 
@@ -30,11 +31,12 @@ export function GalleryModal({ open, title, items, onClose }: Props) {
   }, [open, onClose, lbIndex]);
 
   if (!open) return null;
+  if (typeof document === "undefined") return null;
 
-  return (
-    <div className="fixed inset-0 z-[200] bg-onyx flex flex-col">
+  return createPortal(
+    <div className="fixed inset-0 z-[9000] bg-onyx flex flex-col">
       {/* Top bar: always visible, X always reachable */}
-      <div className="relative flex items-center gap-3 px-4 py-4 border-b border-gold/30 bg-onyx z-[210]">
+      <div className="relative flex items-center gap-3 px-4 py-4 border-b border-gold/30 bg-onyx z-[9010]">
         <button
           onClick={onClose}
           aria-label="Cerrar galería"
@@ -81,6 +83,8 @@ export function GalleryModal({ open, title, items, onClose }: Props) {
         onClose={() => setLbIndex(null)}
         onChange={(i) => setLbIndex(i)}
       />
-    </div>
+    </div>,
+    document.body,
   );
 }
+

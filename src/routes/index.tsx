@@ -92,24 +92,24 @@ function Index() {
             className="absolute inset-0 w-full h-full"
           />
         </div>
-        {/* Logo — appears immediately behind chica */}
+        {/* Logo — appears immediately behind chica, fills viewport height on mobile */}
         <div
-          className="absolute inset-0 h-screen w-full flex items-center justify-center transition-opacity duration-300"
+          className="absolute inset-0 flex items-center justify-center transition-opacity duration-300"
           style={{ opacity: phase1Progress >= 1 ? 1 : 0 }}
         >
-          <div className="relative w-[68%] max-w-[420px] aspect-square">
-            <FrameCanvas
-              prefix="/frames/logo/logo_ntt_"
-              pad={4}
-              start={1}
-              end={150}
-              ext=".jpg"
-              progress={phase2Progress}
-              freezeAtEnd
-              className="absolute inset-0 w-full h-full"
-            />
-          </div>
+          <FrameCanvas
+            prefix="/frames/logo/logo_ntt_"
+            pad={4}
+            start={1}
+            end={150}
+            ext=".jpg"
+            progress={phase2Progress}
+            freezeAtEnd
+            fit="contain"
+            className="w-full h-full"
+          />
         </div>
+
         {/* darkening vignette to keep text legible */}
         <div className="absolute inset-0" style={{
           background: "radial-gradient(120% 80% at 50% 60%, transparent 30%, rgba(26,26,26,0.55) 80%, rgba(26,26,26,0.85) 100%)",

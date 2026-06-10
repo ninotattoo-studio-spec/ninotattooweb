@@ -83,11 +83,11 @@ export function FrameCanvas({ prefix, pad, start, end, ext, progress, className,
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, w, h);
 
-    // cover fit
     const ir = img.naturalWidth / img.naturalHeight;
     const cr = w / h;
     let dw = w, dh = h, dx = 0, dy = 0;
-    if (ir > cr) {
+    const useCover = fit === "cover";
+    if ((useCover && ir > cr) || (!useCover && ir < cr)) {
       dh = h;
       dw = h * ir;
       dx = (w - dw) / 2;

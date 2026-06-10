@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 
 type Item = { type: "image" | "video"; src: string; alt?: string };

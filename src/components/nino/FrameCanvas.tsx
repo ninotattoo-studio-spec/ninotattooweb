@@ -14,6 +14,8 @@ interface Props {
   className?: string;
   /** If true, canvas keeps the last frame even when progress > 1 */
   freezeAtEnd?: boolean;
+  /** "cover" (default) crops to fill; "contain" letterboxes, no deformation */
+  fit?: "cover" | "contain";
 }
 
 export function FrameCanvas({ prefix, pad, start, end, ext, progress, className, freezeAtEnd }: Props) {

@@ -17,7 +17,7 @@ export const Route = createFileRoute("/")({
 });
 
 // Heights in viewport units controlling the cinematic intro
-const PHASE1_VH = 320; // chica sequence
+const PHASE1_VH = 120; // chica sequence
 const PHASE2_VH = 200; // logo sequence
 
 function Index() {

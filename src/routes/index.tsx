@@ -17,7 +17,7 @@ export const Route = createFileRoute("/")({
 });
 
 // Heights in viewport units controlling the cinematic intro
-const PHASE1_VH = 320; // chica sequence
+const PHASE1_VH = 100; // chica sequence
 const PHASE2_VH = 200; // logo sequence
 
 function Index() {
@@ -77,21 +77,21 @@ function Index() {
               "radial-gradient(45% 70% at 0% 50%, color-mix(in oklab, var(--color-gold) 32%, transparent), transparent 75%), radial-gradient(45% 70% at 100% 50%, color-mix(in oklab, var(--color-gold) 28%, transparent), transparent 75%)",
           }}
         />
-        {/* Chica — fades out as phase1 ends */}
-        <div
-          className="absolute inset-0 transition-opacity duration-300"
-          style={{ opacity: phase1Progress >= 1 ? 0 : 1 }}
-        >
-          <FrameCanvas
-            prefix="/frames/chica/hero-girlrt_"
-            pad={4}
-            start={1}
-            end={120}
-            ext=".jpg"
-            progress={phase1Progress}
-            className="absolute inset-0 w-full h-full"
-          />
-        </div>
+       {/* Chica — fades out as phase1 ends */}
+<div
+  className="absolute inset-0 transition-opacity duration-300"
+  style={{ opacity: phase1Progress >= 1 ? 0 : 1 }}
+>
+  <FrameCanvas
+    prefix="/frames/chica/hero-girlrt_"
+    pad={4}
+    start={1}
+    end={120} // Mantenemos 120 porque tu último archivo físico se llama así
+    ext=".jpg"
+    progress={phase1Progress}
+    className="absolute inset-0 w-full h-full"
+  />
+</div>
         {/* Logo — appears immediately behind chica, fills viewport height on mobile */}
         <div
           className="absolute inset-0 flex items-center justify-center transition-opacity duration-300"

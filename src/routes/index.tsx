@@ -83,10 +83,11 @@ function Index() {
   style={{ opacity: phase1Progress >= 1 ? 0 : 1 }}
 >
   <FrameCanvas
+    key={`chica-frame-${Math.floor(phase1Progress * 10)}`} // <-- AÑADE ESTA LÍNEA AQUÍ
     prefix="/frames/chica/hero-girlrt_"
     pad={4}
     start={1}
-    end={120} // Mantenemos 120 porque tu último archivo físico se llama así
+    end={120}
     ext=".jpg"
     progress={phase1Progress}
     className="absolute inset-0 w-full h-full"

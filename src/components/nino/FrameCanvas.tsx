@@ -62,16 +62,16 @@ export function FrameCanvas({ prefix, pad, start, end, ext, progress, className,
     p = Math.max(0, Math.min(1, p));
     const idx = Math.min(total - 1, Math.floor(p * (total - 1)));
 
-    // Find nearest loaded image at or before idx
-    let img: HTMLImageElement | null = null;
-    for (let i = idx; i >= 0; i--) {
-      const candidate = imagesRef.current[i];
-      if (candidate && candidate.complete && candidate.naturalWidth > 0) {
-        img = candidate;
-        break;
+   // 2. ¡ESTO ES LO NUEVO!: Si no hay anterior, busca hacia adelante para evitar que se congele
+    if (!img) {
+      for (let i = idx + 1; i < total; i++) {
+        const candidate = imagesRef.current[i];
+        if (candidate && candidate.complete && candidate.naturalWidth > 0) {
+          img = candidate;
+          break;
+        }
       }
     }
-    if (!img) return;
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const w = canvas.clientWidth;

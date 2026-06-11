@@ -168,8 +168,18 @@ function Index() {
         <ContactCard />
         <BookingForm ref={formRef} />
 
-        <footer className="text-center pb-10 text-[10px] tracking-[0.35em] text-ivory/40 uppercase">
-          © Niño Tattoo
+        <footer className="text-center pb-10 px-4">
+          <p className="text-xs text-neutral-600">
+            © 2026 Niño Tattoo. Todos los derechos reservados. | Handcrafted by{" "}
+            <a
+              href="https://www.linkedin.com/in/jose-luis-pardo-amador-mlopdev"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-neutral-600 hover:text-gold transition-colors duration-300"
+            >
+              José Luis Pardo Amador
+            </a>
+          </p>
         </footer>
       </main>
     </div>

@@ -83,7 +83,7 @@ function Index() {
           style={{ opacity: phase1Progress >= 1 ? 0 : 1 }}
         >
           <FrameCanvas
-            prefix="/frames/chica/hero-girlrt__"
+            prefix="/frames/chica/hero-girlrt_"
             pad={4}
             start={1}
             end={300}

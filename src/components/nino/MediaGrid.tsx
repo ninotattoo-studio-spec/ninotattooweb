@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Lightbox, type LightboxItem } from "./Lightbox";
+import { GalleryModal } from "./GalleryModal";
+import type { LightboxItem } from "./Lightbox";
 
 const tattooModules = import.meta.glob("/src/assets/trabajos/*.{png,jpg,jpeg,webp}", {
   eager: true,
@@ -25,7 +26,7 @@ const sections: Section[] = [
 ];
 
 export function MediaGrid() {
-  const [lb, setLb] = useState<{ items: LightboxItem[]; index: number } | null>(null);
+  const [active, setActive] = useState<Section | null>(null);
 
   return (
     <section className="px-4 sm:px-8 mt-16">
@@ -37,11 +38,11 @@ export function MediaGrid() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         {sections.map((s) => {
           const cover = s.items[0];
-          const disabled = s.comingSoon || !cover;
+          const disabled = s.comingSoon || s.items.length === 0;
           return (
             <article key={s.title} className="group relative overflow-hidden border border-gold/20 bg-onyx aspect-[4/5]">
               <button
-                onClick={() => !disabled && setLb({ items: s.items, index: 0 })}
+                onClick={() => !disabled && setActive(s)}
                 className="absolute inset-0 w-full h-full"
                 aria-label={`Ver ${s.title}`}
                 disabled={disabled}
@@ -76,11 +77,11 @@ export function MediaGrid() {
         })}
       </div>
 
-      <Lightbox
-        items={lb?.items ?? []}
-        index={lb?.index ?? null}
-        onClose={() => setLb(null)}
-        onChange={(i) => setLb((p) => (p ? { ...p, index: i } : p))}
+      <GalleryModal
+        open={active !== null}
+        title={active?.title ?? ""}
+        items={active?.items ?? []}
+        onClose={() => setActive(null)}
       />
     </section>
   );

@@ -14,9 +14,11 @@ interface Props {
   className?: string;
   /** If true, canvas keeps the last frame even when progress > 1 */
   freezeAtEnd?: boolean;
+  /** "cover" (default) crops to fill; "contain" letterboxes, no deformation */
+  fit?: "cover" | "contain";
 }
 
-export function FrameCanvas({ prefix, pad, start, end, ext, progress, className, freezeAtEnd }: Props) {
+export function FrameCanvas({ prefix, pad, start, end, ext, progress, className, freezeAtEnd, fit = "cover" }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imagesRef = useRef<(HTMLImageElement | null)[]>([]);
   const [, force] = useState(0);
@@ -81,11 +83,11 @@ export function FrameCanvas({ prefix, pad, start, end, ext, progress, className,
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, w, h);
 
-    // cover fit
     const ir = img.naturalWidth / img.naturalHeight;
     const cr = w / h;
     let dw = w, dh = h, dx = 0, dy = 0;
-    if (ir > cr) {
+    const useCover = fit === "cover";
+    if ((useCover && ir > cr) || (!useCover && ir < cr)) {
       dh = h;
       dw = h * ir;
       dx = (w - dw) / 2;

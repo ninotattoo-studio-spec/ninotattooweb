@@ -83,7 +83,7 @@ function Index() {
   style={{ opacity: phase1Progress >= 1 ? 0 : 1 }}
 >
   <FrameCanvas
-    key={`chica-frame-${Math.floor(phase1Progress * 10)}`} // <-- AÑADE ESTA LÍNEA AQUÍ
+   
     prefix="/frames/chica/hero-girlrt_"
     pad={4}
     start={1}

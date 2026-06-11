@@ -86,7 +86,7 @@ function Index() {
             prefix="/frames/chica/hero-girlrt_"
             pad={4}
             start={1}
-            end={300}
+            end={120}
             ext=".jpg"
             progress={phase1Progress}
             className="absolute inset-0 w-full h-full"

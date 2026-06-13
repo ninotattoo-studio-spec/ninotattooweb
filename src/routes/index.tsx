@@ -173,13 +173,13 @@ function Index() {
           <p className="text-xs text-neutral-600">
             © 2026 Niño Tattoo. Todos los derechos reservados. | Handcrafted by{" "}
             <a
-              href="https://www.linkedin.com/in/jose-luis-pardo-amador-mlopdev"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-neutral-600 hover:text-gold transition-colors duration-300"
-            >
-              José Luis Pardo Amador
-            </a>
+  href="https://www.linkedin.com/in/jose-luis-pardo-amador-mlopdev"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="text-neutral-600 hover:text-gold active:text-gold md:active:text-neutral-600 active:scale-105 active:drop-shadow-[0_0_8px_rgba(212,175,55,0.8)] transition-all duration-300 inline-block"
+>
+  José Luis Pardo Amador
+</a>
           </p>
         </footer>
       </main>

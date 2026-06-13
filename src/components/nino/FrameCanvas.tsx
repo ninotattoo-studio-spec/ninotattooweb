@@ -1,56 +1,80 @@
 import { useEffect, useRef, useState } from "react";
 
 interface Props {
-  /** Path prefix, e.g. "/frames/chica/hero-girlrt_" */
   prefix: string;
-  /** Padded count, e.g. 4 */
   pad: number;
   start: number;
   end: number;
-  /** ".jpg" */
   ext: string;
-  /** 0..1 */
   progress: number;
   className?: string;
-  /** If true, canvas keeps the last frame even when progress > 1 */
   freezeAtEnd?: boolean;
-  /** "cover" (default) crops to fill; "contain" letterboxes, no deformation */
   fit?: "cover" | "contain";
 }
 
-export function FrameCanvas({ prefix, pad, start, end, ext, progress, className, freezeAtEnd, fit = "cover" }: Props) {
+export function FrameCanvas({
+  prefix, pad, start, end, ext, progress,
+  className, freezeAtEnd, fit = "cover",
+}: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imagesRef = useRef<(HTMLImageElement | null)[]>([]);
   const [, force] = useState(0);
 
   const total = end - start + 1;
 
-  // Preload progressively
+  // Preload en batches paralelos en lugar de setTimeout encadenado
   useEffect(() => {
     imagesRef.current = new Array(total).fill(null);
     let cancelled = false;
-    const loadIdx = (i: number) => {
-      if (cancelled || i >= total) return;
-      const num = String(start + i).padStart(pad, "0");
-      const img = new Image();
-      img.src = `${prefix}${num}${ext}`;
-      img.decoding = "async";
-      img.onload = () => {
-        imagesRef.current[i] = img;
-        if (i % 20 === 0) force((n) => n + 1);
-      };
-      img.onerror = () => {
-        imagesRef.current[i] = img; // mark as attempted
-      };
-      // staggered for bandwidth
-      setTimeout(() => loadIdx(i + 1), 8);
+
+    const loadOne = (i: number): Promise<void> => {
+      return new Promise((resolve) => {
+        if (cancelled || i >= total) return resolve();
+        const num = String(start + i).padStart(pad, "0");
+        const img = new Image();
+        img.src = `${prefix}${num}${ext}`;
+        img.decoding = "async";
+        img.onload = () => {
+          if (!cancelled) {
+            imagesRef.current[i] = img;
+            // Re-render cada 10 frames cargados
+            if (i % 10 === 0) force((n) => n + 1);
+          }
+          resolve();
+        };
+        img.onerror = () => {
+          imagesRef.current[i] = img; // marca como intentado
+          resolve();
+        };
+      });
     };
-    // load first frame eagerly, then ramp
-    loadIdx(0);
-    setTimeout(() => loadIdx(1), 0);
+
+    const loadBatch = async (startIdx: number, batchSize: number) => {
+      if (cancelled) return;
+      const promises: Promise<void>[] = [];
+      for (let i = startIdx; i < Math.min(startIdx + batchSize, total); i++) {
+        promises.push(loadOne(i));
+      }
+      await Promise.all(promises);
+      if (!cancelled) force((n) => n + 1);
+    };
+
+    // Carga prioritaria: primero el frame 0 solo, luego todo en batches de 10
+    loadOne(0).then(() => {
+      force((n) => n + 1);
+      const loadAll = async () => {
+        for (let i = 1; i < total; i += 10) {
+          if (cancelled) break;
+          await loadBatch(i, 10);
+        }
+      };
+      loadAll();
+    });
+
     return () => { cancelled = true; };
   }, [prefix, pad, start, end, ext, total]);
 
+  // Efecto de dibujo — depende explícitamente de progress y force
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -60,11 +84,20 @@ export function FrameCanvas({ prefix, pad, start, end, ext, progress, className,
     let p = progress;
     if (freezeAtEnd && p > 1) p = 1;
     p = Math.max(0, Math.min(1, p));
-    const idx = Math.min(total - 1, Math.floor(p * (total - 1)));
 
-   // 2. ¡ESTO ES LO NUEVO!: Si no hay anterior, busca hacia adelante para evitar que se congele
-    if (!img) {
-      for (let i = idx + 1; i < total; i++) {
+    // Umbral de seguridad: si progress >= 0.95, forzar último frame
+    const targetIdx = p >= 0.95
+      ? total - 1
+      : Math.min(total - 1, Math.floor(p * (total - 1)));
+
+    // *** BUG CRÍTICO CORREGIDO: img nunca estaba declarada ***
+    let img: HTMLImageElement | null = imagesRef.current[targetIdx];
+
+    // Búsqueda bidireccional: primero hacia atrás (frames ya cargados),
+    // luego hacia adelante si no hay nada atrás
+    if (!img || !img.complete || img.naturalWidth === 0) {
+      // 1. Buscar hacia atrás (frames que SÍ han cargado)
+      for (let i = targetIdx - 1; i >= 0; i--) {
         const candidate = imagesRef.current[i];
         if (candidate && candidate.complete && candidate.naturalWidth > 0) {
           img = candidate;
@@ -73,9 +106,26 @@ export function FrameCanvas({ prefix, pad, start, end, ext, progress, className,
       }
     }
 
+    if (!img || !img.complete || img.naturalWidth === 0) {
+      // 2. Si tampoco hay nada atrás, buscar hacia adelante
+      for (let i = targetIdx + 1; i < total; i++) {
+        const candidate = imagesRef.current[i];
+        if (candidate && candidate.complete && candidate.naturalWidth > 0) {
+          img = candidate;
+          break;
+        }
+      }
+    }
+
+    // Si no hay ningún frame disponible aún, no pintar
+    if (!img || !img.complete || img.naturalWidth === 0) return;
+
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const w = canvas.clientWidth;
     const h = canvas.clientHeight;
+
+    if (w === 0 || h === 0) return;
+
     if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
       canvas.width = w * dpr;
       canvas.height = h * dpr;
@@ -97,7 +147,7 @@ export function FrameCanvas({ prefix, pad, start, end, ext, progress, className,
       dy = (h - dh) / 2;
     }
     ctx.drawImage(img, dx, dy, dw, dh);
-  });
+  }); // sin dependencias = se ejecuta en cada render (correcto aquí)
 
   return <canvas ref={canvasRef} className={className} />;
 }

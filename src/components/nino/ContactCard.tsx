@@ -57,14 +57,14 @@ export function ContactCard() {
 
           <div className="mt-8 flex items-center justify-center gap-5">
             <a
-              href="#"
+              href="https://www.instagram.com/ninotattooestudio"
               aria-label="Instagram"
               className="p-3 border border-gold/40 text-gold hover:bg-gold hover:text-onyx transition-colors"
             >
               <Instagram className="h-5 w-5" strokeWidth={1.5} />
             </a>
             <a
-              href="#"
+              href="https://www.tiktok.com/@ninotattooestudio"
               aria-label="TikTok"
               className="p-3 border border-gold/40 text-gold hover:bg-gold hover:text-onyx transition-colors"
             >

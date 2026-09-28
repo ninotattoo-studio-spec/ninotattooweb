@@ -20,7 +20,7 @@ type Section = { title: string; items: LightboxItem[]; comingSoon?: boolean };
 
 const sections: Section[] = [
   { title: "Tatuajes", items: tattooImages },
-  { title: "Depilación Láser", items: [], comingSoon: true },
+  { title: "Eliminación Láser", items: [], comingSoon: true },
   { title: "Cuidados", items: [], comingSoon: true },
   { title: "Piercings", items: [], comingSoon: true },
 ];

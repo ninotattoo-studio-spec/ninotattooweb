@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Phone, Mail, Instagram, Music2, Check } from "lucide-react";
 
-const PHONE = "614 28 74 07";
-const EMAIL = "joseycarbonero@gmail.com";
+const PHONE = "659 13 43 65";
+const EMAIL = "contacto.ninotattoostudio@gmail.com";
 
 export function ContactCard() {
   const [copied, setCopied] = useState<string | null>(null);

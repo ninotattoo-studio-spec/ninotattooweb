@@ -2,7 +2,7 @@ import { useState } from "react";
 import { GalleryModal } from "./GalleryModal";
 import type { LightboxItem } from "./Lightbox";
 
-const tattooModules = import.meta.glob("/src/assets/trabajos/*.{png,jpg,jpeg,webp}", {
+const tattooModules = import.meta.glob("/src/assets/trabajos/*.{png,jpg,jpeg,webp,mp4}", {
   eager: true,
   query: "?url",
   import: "default",

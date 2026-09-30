@@ -2,38 +2,58 @@ import { useState } from "react";
 import { GalleryModal } from "./GalleryModal";
 import type { LightboxItem } from "./Lightbox";
 
-// Función inteligente que detecta si el archivo es FOTO o VÍDEO automáticamente
-function parseMedia(modules: Record<string, string>, label: string): LightboxItem[] {
+// Función auxiliar para cargar archivos multimedia automáticamente
+function parseMedia(
+  modules: Record<string, { default: string }>,
+  categoryName: string
+): LightboxItem[] {
   return Object.entries(modules)
     .sort(([a], [b]) => a.localeCompare(b, "es", { numeric: true }))
-    .map(([path, src], i) => {
-      const isVideo = /\.(mp4|webm|mov)$/i.test(path);
+    .map(([path, mod], i) => {
+      const ext = path.split(".").pop()?.toLowerCase() || "";
+      const isVideo = ["mp4", "webm", "mov"].includes(ext);
       return {
-        type: isVideo ? "video" : "image",
-        src,
-        alt: `${label} ${i + 1}`,
+        type: isVideo ? ("video" as const) : ("image" as const),
+        src: mod.default,
+        alt: `${categoryName} ${i + 1}`,
       };
     });
 }
 
-// Carga automática de las 4 carpetas de assets (Soporta imágenes y vídeos MP4/WebM)
+// Carga de módulos por cada sección
 const tattooImages = parseMedia(
-  import.meta.glob("/src/assets/trabajos/*.{png,jpg,jpeg,webp,mp4,webm}", { eager: true, query: "?url", import: "default" }),
-  "Tatuaje"
+  import.meta.glob("/src/assets/trabajos/*.{png,jpg,jpeg,webp,mp4,webm}", {
+    eager: true,
+    query: "?url",
+    import: "default",
+  }),
+  "Trabajo"
 );
 
 const laserItems = parseMedia(
-  import.meta.glob("/src/assets/laser/*.{png,jpg,jpeg,webp,mp4,webm}", { eager: true, query: "?url", import: "default" }),
-  "Eliminación Láser"
+  import.meta.glob("/src/assets/laser/*.{png,jpg,jpeg,webp,mp4,webm}", {
+    eager: true,
+    query: "?url",
+    import: "default",
+  }),
+  "Láser"
 );
 
 const cuidadosItems = parseMedia(
-  import.meta.glob("/src/assets/cuidados/*.{png,jpg,jpeg,webp,mp4,webm}", { eager: true, query: "?url", import: "default" }),
-  "Cuidado"
+  import.meta.glob("/src/assets/cuidados/*.{png,jpg,jpeg,webp,mp4,webm}", {
+    eager: true,
+    query: "?url",
+    import: "default",
+  }),
+  "Cuidados"
 );
 
 const piercingsItems = parseMedia(
-  import.meta.glob("/src/assets/piercings/*.{png,jpg,jpeg,webp,mp4,webm}", { eager: true, query: "?url", import: "default" }),
+  import.meta.glob("/src/assets/piercings/*.{png,jpg,jpeg,webp,mp4,webm}", {
+    eager: true,
+    query: "?url",
+    import: "default",
+  }),
   "Piercing"
 );
 
@@ -70,12 +90,23 @@ export function MediaGrid() {
                 disabled={disabled}
               >
                 {cover ? (
-                  <img
-                    src={cover.src}
-                    alt={s.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 group-active:scale-105"
-                    loading="lazy"
-                  />
+                  cover.type === "video" ? (
+                    <video
+                      src={cover.src}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 group-active:scale-105"
+                      muted
+                      autoPlay
+                      loop
+                      playsInline
+                    />
+                  ) : (
+                    <img
+                      src={cover.src}
+                      alt={s.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 group-active:scale-105"
+                      loading="lazy"
+                    />
+                  )
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center geo-lines opacity-60" />
                 )}

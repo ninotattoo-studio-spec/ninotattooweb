@@ -65,12 +65,22 @@ export function GalleryModal({ open, title, items, onClose }: Props) {
                 className="group relative aspect-square overflow-hidden border border-gold/20 bg-onyx/60 active:scale-[0.98] transition-transform"
                 aria-label={`Abrir ${it.alt ?? `imagen ${i + 1}`}`}
               >
-                <img
-                  src={it.src}
-                  alt={it.alt ?? `Imagen ${i + 1}`}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
-                />
+                {it.type === "video" ? (
+  <video
+    src={it.src}
+    className="w-full h-full object-cover"
+    muted
+    playsInline
+    preload="metadata"
+  />
+) : (
+  <img
+    src={it.src}
+    alt={it.alt ?? `Imagen ${i + 1}`}
+    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+    loading="lazy"
+  />
+)}
               </button>
             ))}
           </div>

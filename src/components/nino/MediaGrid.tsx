@@ -2,27 +2,49 @@ import { useState } from "react";
 import { GalleryModal } from "./GalleryModal";
 import type { LightboxItem } from "./Lightbox";
 
-const tattooModules = import.meta.glob("/src/assets/trabajos/*.{png,jpg,jpeg,webp}", {
-  eager: true,
-  query: "?url",
-  import: "default",
-}) as Record<string, string>;
+// Función inteligente que detecta si el archivo es FOTO o VÍDEO automáticamente
+function parseMedia(modules: Record<string, string>, label: string): LightboxItem[] {
+  return Object.entries(modules)
+    .sort(([a], [b]) => a.localeCompare(b, "es", { numeric: true }))
+    .map(([path, src], i) => {
+      const isVideo = /\.(mp4|webm|mov)$/i.test(path);
+      return {
+        type: isVideo ? "video" : "image",
+        src,
+        alt: `${label} ${i + 1}`,
+      };
+    });
+}
 
-const tattooImages: LightboxItem[] = Object.entries(tattooModules)
-  .sort(([a], [b]) => a.localeCompare(b, "es", { numeric: true }))
-  .map(([, src], i) => ({
-    type: "image" as const,
-    src,
-    alt: `Trabajo ${i + 1}`,
-  }));
+// Carga automática de las 4 carpetas de assets (Soporta imágenes y vídeos MP4/WebM)
+const tattooImages = parseMedia(
+  import.meta.glob("/src/assets/trabajos/*.{png,jpg,jpeg,webp,mp4,webm}", { eager: true, query: "?url", import: "default" }),
+  "Tatuaje"
+);
+
+const laserItems = parseMedia(
+  import.meta.glob("/src/assets/laser/*.{png,jpg,jpeg,webp,mp4,webm}", { eager: true, query: "?url", import: "default" }),
+  "Eliminación Láser"
+);
+
+const cuidadosItems = parseMedia(
+  import.meta.glob("/src/assets/cuidados/*.{png,jpg,jpeg,webp,mp4,webm}", { eager: true, query: "?url", import: "default" }),
+  "Cuidado"
+);
+
+const piercingsItems = parseMedia(
+  import.meta.glob("/src/assets/piercings/*.{png,jpg,jpeg,webp,mp4,webm}", { eager: true, query: "?url", import: "default" }),
+  "Piercing"
+);
 
 type Section = { title: string; items: LightboxItem[]; comingSoon?: boolean };
 
+// Conectamos cada lista a su carta correspondiente
 const sections: Section[] = [
   { title: "Tatuajes", items: tattooImages },
-  { title: "Eliminación Láser", items: [], comingSoon: true },
-  { title: "Cuidados", items: [], comingSoon: true },
-  { title: "Piercings", items: [], comingSoon: true },
+  { title: "Eliminación Láser", items: laserItems },
+  { title: "Cuidados", items: cuidadosItems },
+  { title: "Piercings", items: piercingsItems },
 ];
 
 export function MediaGrid() {
